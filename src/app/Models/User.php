@@ -48,6 +48,12 @@ class User extends Authenticatable implements MustVerifyEmail
     const ROLE_USER = 0;
     const ROLE_ADMIN = 1;
 
+    //  勤務外:0  勤務中:1  休憩中:2  退勤済み:3
+    public const STATUS_OFF_DUTY = 0;
+    public const STATUS_WORKING = 1;
+    public const STATUS_BREAK = 2;
+    public const STATUS_FINISHED = 3;
+
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
