@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\AttendanceController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +16,15 @@ use App\Http\Controllers\RegisteredUserController;
 |
 */
 
-Route::get('/', );
+
 
 Route::post('/register', [RegisteredUserController::class, 'store']);
+
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->name('verification.notice');
 
+Route::middleware(['auth', 'verified'])->group(function(){
+Route::get('/attendance', [AttendanceController::class, 'index']);
+});

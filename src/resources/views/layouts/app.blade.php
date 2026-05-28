@@ -12,22 +12,21 @@
 <body>
     <div class="app">
         <header class="header">
-            <a href="/" class="header__logo">
+            <a href="/attendance" class="header__logo">
                 <img src="{{ asset('images/COACHTECHヘッダーロゴ.png') }}" alt="COACHTECH">
             </a>
 
+            @auth
             <div class="header-nav">
-                @auth
+                <a href="/login" class="header-nav__login">勤怠</a>
+                <a href="/mypage" class="header-nav__mypage">勤怠一覧</a>
+                <a href="/sell" class="header-nav__listing">申請</a>
                 <form class="header-nav__form" action="{{route('logout')}}" method="post">
                     @csrf
                     <button class="header-nav__form--logout" type="submit">ログアウト</button>
                 </form>
-                @else
-                <a href="/login" class="header-nav__login">ログイン</a>
-                @endauth
-                <a href="/mypage" class="header-nav__mypage">マイページ</a>
-                <a href="/sell" class="header-nav__listing">出品</a>
             </div>
+            @endauth
 
         </header>
         <div class="content">
