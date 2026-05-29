@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{asset('css/common.css')}}">
     <link rel="stylesheet" href="{{asset('css/sanitize.css')}}">
     @yield('css')
+    @yield('js')
 
 </head>
 <body>
@@ -18,9 +19,9 @@
 
             @auth
             <div class="header-nav">
-                <a href="/login" class="header-nav__login">勤怠</a>
-                <a href="/mypage" class="header-nav__mypage">勤怠一覧</a>
-                <a href="/sell" class="header-nav__listing">申請</a>
+                <a href="/login" class="header-nav__attendance">勤怠</a>
+                <a href="/mypage" class="header-nav__list">勤怠一覧</a>
+                <a href="/sell" class="header-nav__request">申請</a>
                 <form class="header-nav__form" action="{{route('logout')}}" method="post">
                     @csrf
                     <button class="header-nav__form--logout" type="submit">ログアウト</button>

@@ -4,16 +4,20 @@
 <link rel="stylesheet" href="{{asset('css/attendance/index.css')}}">
 @endsection
 
+@section('js')
+<script src="{{ asset('js/attendance.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="attendance-content">
     <div class="attendance--status">
         <p>勤務外</p>
     </div>
     <div class="attendance--date">
-        <p>{{ $now->locale('ja')->isoFormat('YYYY年M月D日(ddd)')}}</p>
+        <p id="current-date"></p>
     </div>
     <div class="attendance--time">
-        <p>{{ $now->format('H:i') }}</p>
+        <p id="current-time"></p>
     </div>
     <form class="attendance--clock" action="/attendance" method="post">
         @csrf
