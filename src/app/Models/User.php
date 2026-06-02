@@ -44,15 +44,39 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    //　一般ユーザー：0　　管理者：1
-    const ROLE_USER = 0;
-    const ROLE_ADMIN = 1;
+    //  一般ユーザー：0  管理者：1
+    public const ROLE_USER = 0;
+    public const ROLE_ADMIN = 1;
 
-    //  勤務外:0  勤務中:1  休憩中:2  退勤済み:3
+    //  勤務外:0  勤務中:1  休憩中:2  退勤済:3
     public const STATUS_OFF_DUTY = 0;
     public const STATUS_WORKING = 1;
     public const STATUS_BREAK = 2;
     public const STATUS_FINISHED = 3;
+
+
+    public const STATUS_LABELS = [
+        self::STATUS_OFF_DUTY => '勤務外',
+        self::STATUS_WORKING => '勤務中',
+        self::STATUS_BREAK => '休憩中',
+        self::STATUS_FINISHED => '退勤済',
+    ];
+
+    public function isOffDuty(){
+        return $this->status === self::STATUS_OFF_DUTY;
+    }
+
+    public function isWorking(){
+        return $this->status === self::STATUS_WORKING;
+    }
+
+    public function isBreak(){
+        return $this->status === self::STATUS_BREAK;
+    }
+
+    public function isFinished(){
+        return $this->status === self::STATUS_FINISHED;
+    }
 
     public function attendances()
     {
@@ -64,9 +88,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(CorrectionRequest::class);
     }
 
-    public function isAdmin(): bool
+    public function isAdmin()
     {
         return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function getStatusLabel()
+    {
+    return self::STATUS_LABELS[$this->status];
     }
 
 }

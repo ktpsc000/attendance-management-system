@@ -26,5 +26,9 @@ Route::get('/email/verify', function () {
 })->name('verification.notice');
 
 Route::middleware(['auth', 'verified'])->group(function(){
-Route::get('/attendance', [AttendanceController::class, 'index']);
+Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
+Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn']);
+Route::post('/attendance/break-start', [AttendanceController::class, 'breakStart']);
+Route::post('/attendance/break-end', [AttendanceController::class, 'breakEnd']);
+Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut']);
 });
