@@ -19,9 +19,22 @@
 
             @auth
             <div class="header-nav">
-                <a href="/login" class="header-nav__attendance">勤怠</a>
-                <a href="/mypage" class="header-nav__list">勤怠一覧</a>
-                <a href="/sell" class="header-nav__request">申請</a>
+                @if(!auth()->user()->isFinished())
+                <a href="/attendance" class="header-nav__attendance">勤怠</a>
+                @endif
+
+                @if(auth()->user()->isFinished())
+                <a href="/attendance/list" class="header-nav__list">今月の出勤一覧</a>
+                @else
+                <a href="/attendance/list" class="header-nav__list">勤怠一覧</a>
+                @endif
+
+                @if(auth()->user()->isFinished())
+                <a href="/stamp_correction_request/list" class="header-nav__request">申請一覧</a>
+                @else
+                <a href="/stamp_correction_request/list" class="header-nav__request">申請</a>
+                @endif
+
                 <form class="header-nav__form" action="{{route('logout')}}" method="post">
                     @csrf
                     <button class="header-nav__form--logout" type="submit">ログアウト</button>

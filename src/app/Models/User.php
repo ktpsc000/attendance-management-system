@@ -56,7 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public const STATUS_LABELS = [
         self::STATUS_OFF_DUTY => '勤務外',
-        self::STATUS_WORKING => '勤務中',
+        self::STATUS_WORKING => '出勤中',
         self::STATUS_BREAK => '休憩中',
     ];
 
