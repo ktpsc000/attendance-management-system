@@ -48,22 +48,25 @@ class User extends Authenticatable implements MustVerifyEmail
     public const ROLE_USER = 0;
     public const ROLE_ADMIN = 1;
 
-    //  勤務外:0  勤務中:1  休憩中:2  退勤済:3
+    //  勤務外:0  勤務中:1  休憩中:2
     public const STATUS_OFF_DUTY = 0;
     public const STATUS_WORKING = 1;
     public const STATUS_BREAK = 2;
-    public const STATUS_FINISHED = 3;
 
 
     public const STATUS_LABELS = [
         self::STATUS_OFF_DUTY => '勤務外',
         self::STATUS_WORKING => '勤務中',
         self::STATUS_BREAK => '休憩中',
-        self::STATUS_FINISHED => '退勤済',
     ];
 
-    public function isOffDuty(){
-        return $this->status === self::STATUS_OFF_DUTY;
+    public function isOffDuty()
+    {
+        $todayAttendance = $this->attendances()
+            ->whereDate('work_date', today())
+            ->first();
+
+        return !$todayAttendance;
     }
 
     public function isWorking(){
@@ -75,7 +78,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function isFinished(){
-        return $this->status === self::STATUS_FINISHED;
+        $todayAttendance = $this->attendances()
+            ->whereDate('work_date',today())
+            ->first();
+
+        return $todayAttendance && $todayAttendance->clock_out_at !== null;
     }
 
     public function attendances()
@@ -95,7 +102,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getStatusLabel()
     {
-    return self::STATUS_LABELS[$this->status];
+        $todayAttendance = $this->attendances()
+            ->whereDate('work_date',today())
+            ->first();
+
+        if($todayAttendance && $todayAttendance->clock_out_at){
+            return '退勤済';
+        }
+
+        return self::STATUS_LABELS[$this->status];
     }
 
 }

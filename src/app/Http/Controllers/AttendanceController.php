@@ -10,8 +10,11 @@ class AttendanceController extends Controller
 {
     public function index() {
         $user = auth()->user();
+        $todayAttendance = Attendance::where('user_id', $user->id)
+        ->where('work_date', today())
+        ->first();
 
-        return view('attendance.index' , compact('user'));
+        return view('attendance.index' , compact('user','todayAttendance'));
     }
 
     public function clockIn()
@@ -87,7 +90,7 @@ class AttendanceController extends Controller
         ]);
 
         $user->update([
-            'status' => User::STATUS_FINISHED,
+            'status' => User::STATUS_OFF_DUTY,
         ]);
 
         return back();

@@ -10,9 +10,8 @@
 
 @section('content')
 <div class="attendance-content">
-    <p>{{ $user }}</p>
     <div class="attendance--status">
-        <p>{{auth()->user()->getStatusLabel()}}</p>
+        <p>{{ $user->getStatusLabel() }}</p>
     </div>
     <div class="attendance--date">
         <p id="current-date"></p>
