@@ -38,4 +38,51 @@ class Attendance extends Model
         return $this->hasMany(CorrectionRequest::class);
     }
 
+    public function getBreakMinutes(){
+        $totalMinutes = 0;
+
+        foreach ($this->breaks as $break){
+            if($break->break_start_at && $break->break_end_at){
+                $totalMinutes += $break->break_start_at
+                ->diffInMinutes($break->break_end_at);
+            }
+        }
+
+        return $totalMinutes;
+    }
+
+    public function getFormattedBreakTime()
+    {
+        $minutes = $this->getBreakMinutes();
+
+        $hours = floor($minutes / 60);
+        $minutes = $minutes % 60;
+
+        return sprintf('%d:%02d', $hours, $minutes);
+    }
+
+    public function getWorkingMinutes()
+    {
+        if (!$this->clock_in_at || !$this->clock_out_at) {
+            return 0;
+        }
+
+        $workMinutes = $this->clock_in_at
+            ->diffInMinutes($this->clock_out_at);
+
+        return $workMinutes - $this->getBreakMinutes();
+    }
+
+    public function getFormattedWorkingTime()
+    {
+        $minutes = $this->getWorkingMinutes();
+
+        $hours = floor($minutes / 60);
+        $minutes = $minutes % 60;
+
+        return sprintf('%d:%02d', $hours, $minutes);
+    }
+
+
+
 }

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\User;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class AttendanceController extends Controller
 {
-    public function index() {
+    public function create() {
         $user = auth()->user();
         $todayAttendance = Attendance::where('user_id', $user->id)
         ->where('work_date', today())
@@ -17,8 +19,7 @@ class AttendanceController extends Controller
         return view('attendance.index' , compact('user','todayAttendance'));
     }
 
-    public function clockIn()
-    {
+    public function clockIn(){
         $user = auth()->user();
 
         Attendance::create([
@@ -30,12 +31,10 @@ class AttendanceController extends Controller
         $user->update([
             'status' => User::STATUS_WORKING,
         ]);
-
         return back();
     }
 
-    public function breakStart()
-    {
+    public function breakStart(){
         $user = auth()->user();
 
         $attendance = Attendance::where('user_id', $user->id)
@@ -49,12 +48,10 @@ class AttendanceController extends Controller
         $user->update([
             'status' => User::STATUS_BREAK,
         ]);
-
         return back();
     }
 
-    public function breakEnd()
-    {
+    public function breakEnd(){
         $user = auth()->user();
 
         $attendance = Attendance::where('user_id', $user->id)
@@ -73,12 +70,10 @@ class AttendanceController extends Controller
         $user->update([
             'status' => User::STATUS_WORKING,
         ]);
-
         return back();
     }
 
-    public function clockOut()
-    {
+    public function clockOut(){
         $user = auth()->user();
 
         $attendance = Attendance::where('user_id', $user->id)
@@ -92,10 +87,42 @@ class AttendanceController extends Controller
         $user->update([
             'status' => User::STATUS_OFF_DUTY,
         ]);
-
         return back();
     }
 
+    public function list(Request $request){
 
+    $user = auth()->user();
+    $year = $request->input('year', now()->year);
+    $month = $request->input('month', now()->month);
+
+    $currentMonth = Carbon::create($year, $month);
+
+    $attendances = Attendance::where('user_id',$user->id)
+        ->whereYear('work_date', $year)
+        ->whereMonth('work_date', $month)
+        ->get()
+        ->keyBy(function($attendance){
+            return $attendance->work_date->format('Y-m-d');
+        });
+
+        $days = [];
+
+        foreach(
+            CarbonPeriod::create(
+                $currentMonth->copy()->startOfMonth(),
+                $currentMonth->copy()->endOfMonth()
+            ) as $day
+        ){
+            $date = $day->format('Y-m-d');
+
+            $days[] = [
+                'day' => $day,
+                'attendance' => $attendances[$date] ?? null,
+            ];
+        }
+
+        return view('attendance.list', compact('user','days','currentMonth'));
+    }
 
 }

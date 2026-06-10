@@ -1,0 +1,124 @@
+body {
+    background-color: #F0EFF2;
+}
+
+.attendance-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.attendance-list__title {
+    width: 921px;
+    margin-top: 91px;
+    padding-left: 21px;
+    border-left: 8px solid #000;
+    font-size: 30px;
+}
+
+.attendance-list__month-nav,
+.attendance-table{
+    width: 900px;
+}
+
+.attendance-list__month-nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0px 25px;
+}
+
+.attendance-list__month-nav a{
+    text-decoration: none;
+    color: #737373;
+    font-weight: bolder;
+    font-size: 16px;
+}
+
+.attendance-list__current-month{
+    display: flex;
+    align-items: center;
+}
+
+.attendance-list__current-month img{
+    width: 25px;
+    height: 25px;
+}
+
+.attendance-list__current-month p {
+    font-size: 20px;
+    font-weight: bolder;
+    margin-left: 11px;
+}
+
+.attendance-list__month-nav,
+.attendance-table{
+    background-color: white;
+    color: #737373;
+}
+
+.attendance-table {
+    background: #fff;
+    color: #737373;
+    margin-top: 46px;
+    border-radius: 10px;
+}
+
+.attendance-table thead th:first-child {
+    text-align: left;
+    padding-left: 57px;
+}
+
+.attendance-table tbody tr:first-child {
+    border-top: 4px solid #E1E1E1;
+}
+
+.attendance-table tbody tr {
+    border-top: 3px solid #E1E1E1;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 13px 24px;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 15%;
+    font-weight: bolder;
+}
+
+.attendance-table th{
+    padding: 13px 24px 9px 24px;
+}
+
+.attendance-table__details {
+    color: #000;
+    text-decoration: none;
+}
+
+@media (max-width: 850px) {
+
+    .attendance-list__title,
+    .attendance-list__month-nav,
+    .attendance-table {
+        width: 80vw;
+    }
+
+    .attendance-list__title {
+        font-size: 24px;
+    }
+
+    .attendance-list__month-nav a {
+        font-size: 16px;
+    }
+
+    .attendance-list__current-month p {
+        font-size: 16px;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        font-size: 14px;
+    }
+
+}
