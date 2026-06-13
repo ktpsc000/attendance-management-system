@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\User;
+use App\Models\CorrectionRequest;
+use App\Models\BreakCorrectionRequest;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use App\Http\Requests\AttendanceCorrectionRequest;
 
 class AttendanceController extends Controller
 {
     public function create() {
         $user = auth()->user();
-        $todayAttendance = Attendance::where('user_id', $user->id)
-        ->where('work_date', today())
-        ->first();
+        $todayAttendance = Attendance::firstOrCreate([
+            'user_id' => $user->id,
+            'work_date' => today(),
+        ]);
 
         return view('attendance.index' , compact('user','todayAttendance'));
     }
@@ -22,9 +26,12 @@ class AttendanceController extends Controller
     public function clockIn(){
         $user = auth()->user();
 
-        Attendance::create([
+        $attendance = Attendance::firstOrCreate([
             'user_id' => $user->id,
             'work_date' => today(),
+        ]);
+
+        $attendance->update([
             'clock_in_at' => now(),
         ]);
 
@@ -92,20 +99,10 @@ class AttendanceController extends Controller
 
     public function list(Request $request){
 
-    $user = auth()->user();
-    $year = $request->input('year', now()->year);
-    $month = $request->input('month', now()->month);
-
-    $currentMonth = Carbon::create($year, $month);
-
-    $attendances = Attendance::where('user_id',$user->id)
-        ->whereYear('work_date', $year)
-        ->whereMonth('work_date', $month)
-        ->get()
-        ->keyBy(function($attendance){
-            return $attendance->work_date->format('Y-m-d');
-        });
-
+        $user = auth()->user();
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->month);
+        $currentMonth = Carbon::create($year, $month);
         $days = [];
 
         foreach(
@@ -114,15 +111,61 @@ class AttendanceController extends Controller
                 $currentMonth->copy()->endOfMonth()
             ) as $day
         ){
-            $date = $day->format('Y-m-d');
+            $attendance = Attendance::firstOrCreate([
+                'user_id' => $user->id,
+                'work_date' => $day->format('Y-m-d'),
+            ]);
 
             $days[] = [
                 'day' => $day,
-                'attendance' => $attendances[$date] ?? null,
+                'attendance' => $attendance,
             ];
         }
 
         return view('attendance.list', compact('user','days','currentMonth'));
+    }
+
+    public function detail($id)
+    {
+        $user = auth()->user();
+        $attendance = Attendance::findOrFail($id);
+
+        return view('attendance.detail', compact('user','attendance'));
+    }
+
+
+    public function store(AttendanceCorrectionRequest $request, $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+
+        $correctionRequest = CorrectionRequest::create([
+            'attendance_id' => $attendance->id,
+            'user_id' => auth()->id(),
+
+            'request_clock_in_at' => $request->clock_in_at,
+            'request_clock_out_at' => $request->clock_out_at,
+
+            'remarks' => $request->remarks,
+
+            'status' => CorrectionRequest::STATUS_PENDING,
+        ]);
+
+        foreach ($request->break_start_at as $index => $start){
+
+            $end = $request->break_end_at[$index];
+
+            if (!$start || !$end) {
+                continue;
+            }
+
+            BreakCorrectionRequest::create([
+                'correction_request_id' => $correctionRequest->id,
+                'request_break_start_at' => $start,
+                'request_break_end_at' => $end,
+            ]);
+        }
+
+        return redirect('/attendance/list');
     }
 
 }

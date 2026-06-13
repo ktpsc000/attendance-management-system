@@ -66,7 +66,8 @@ class User extends Authenticatable implements MustVerifyEmail
             ->whereDate('work_date', today())
             ->first();
 
-        return !$todayAttendance;
+        return $todayAttendance
+            && $todayAttendance->clock_in_at === null;
     }
 
     public function isWorking(){

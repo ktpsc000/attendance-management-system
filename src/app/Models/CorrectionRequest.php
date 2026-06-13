@@ -23,6 +23,12 @@ class CorrectionRequest extends Model
         'request_clock_out_at' => 'datetime',
     ];
 
+
+    public const STATUS_PENDING = 1;
+    public const STATUS_APPROVED = 2;
+    public const STATUS_REJECTED = 3;
+
+
     public function attendances()
     {
         return $this->belongsTo(Attendance::class);

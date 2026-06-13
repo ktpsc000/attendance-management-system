@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\StampController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
@@ -33,5 +34,10 @@ Route::post('/attendance/break-end', [AttendanceController::class, 'breakEnd']);
 Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut']);
 
 Route::get('/attendance/list', [AttendanceController::class, 'list'])->name('attendance.list');
+
+Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])->name('attendance.detail');
+Route::post('/attendance/detail/{id}', [AttendanceController::class, 'store']);
+
+Route::get('/stamp_correction_request/list', [StampController::class,'index'])->name('stamp_correction_request.list');
 
 });
