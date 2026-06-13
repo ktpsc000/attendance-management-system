@@ -8,8 +8,9 @@ use App\Models\CorrectionRequest;
 class StampController extends Controller
 {
     public function index(){
-        $requests = CorrectionRequest::where(
-            'user_id', auth()->user())
+        $user = auth()->user();
+        $requests = CorrectionRequest::with('user')
+        ->where('user_id', $user->id)
         ->latest()
         ->get();
 

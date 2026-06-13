@@ -39,7 +39,7 @@
                 <td>{{ $request->created_at->format('Y/m/d') }}</td>
                 <td><a class="attendance-table__details" href="">詳細</a></td>
             </tr>
-            @endforeach
+        @endforeach
         </tbody>
     </table>
 

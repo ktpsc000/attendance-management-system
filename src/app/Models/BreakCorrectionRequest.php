@@ -20,7 +20,7 @@ class BreakCorrectionRequest extends Model
         'request_break_end_at' => 'datetime',
     ];
 
-    public function correctionRequests()
+    public function correctionRequest()
     {
         return $this->belongsTo(CorrectionRequest::class);
     }

@@ -29,14 +29,14 @@ class CorrectionRequest extends Model
     public const STATUS_REJECTED = 3;
 
 
-    public function attendances()
+    public function attendance()
     {
         return $this->belongsTo(Attendance::class);
     }
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(Attendance::class);
+        return $this->belongsTo(User::class);
     }
 
     public function breakCorrectionRequests()

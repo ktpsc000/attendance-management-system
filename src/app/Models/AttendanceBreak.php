@@ -20,7 +20,7 @@ class AttendanceBreak extends Model
         'break_end_at' => 'datetime',
     ];
 
-    public function attendances()
+    public function attendance()
     {
         return $this->belongsTo(Attendance::class);
     }
