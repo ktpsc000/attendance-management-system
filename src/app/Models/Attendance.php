@@ -23,7 +23,7 @@ class Attendance extends Model
         'clock_out_at' => 'datetime',
     ];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

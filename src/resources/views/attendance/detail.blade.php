@@ -22,9 +22,7 @@
 
             <tr>
                 <th>名前</th>
-                <td>
-                    <p>{{ $user->name }}</p>
-                </td>
+                <td><p>{{ $user->name }}</p></td>
             </tr>
 
             <tr>
@@ -38,13 +36,13 @@
             <tr>
                 <th>出勤・退勤</th>
                 <td>
-                    <input type="text" name="clock_in_at" value="{{ old('clock_in_at', optional($attendance->clock_in_at)->format('H:i')) }}">
+                    <input type="text" name="clock_in_at" value="{{ old('clock_in_at', $pendingRequest ? $pendingRequest->request_clock_in_at->format('H:i') : optional($attendance->clock_in_at)->format('H:i')) }}">
                     〜
-                    <input type="text" name="clock_out_at" value="{{ old('clock_out_at', optional($attendance->clock_out_at)->format('H:i')) }}">
+                    <input type="text" name="clock_out_at" value="{{ old('clock_out_at', $pendingRequest ? $pendingRequest->request_clock_out_at->format('H:i') : optional($attendance->clock_out_at)->format('H:i')) }}">
                 </td>
             </tr>
 
-            @foreach($attendance->breaks as $index => $break)
+            @foreach($pendingBreaks as $index => $break)
             <tr>
                 <th>休憩</th>
                 <td>
@@ -58,9 +56,9 @@
             <tr>
                 <th>休憩</th>
                 <td>
-                    <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . count($attendance->breaks)) }}">
+                    <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $pendingBreaks->count()) }}">
                     〜
-                    <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . count($attendance->breaks)) }}">
+                    <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . $pendingBreaks->count()) }}">
                 </td>
             </tr>
 
@@ -71,10 +69,15 @@
 
         </table>
 
+        @if($pendingRequest)
+        <div class="attendance-detail__error-message">
+            <p>*承認待ちのため修正はできません。</p>
+        </div>
+        @else
         <div class="attendance-detail__btn">
             <input class="attendance-detail__btn--submit" type="submit" value="修正">
         </div>
-
+        @endif
 
     </form>
 

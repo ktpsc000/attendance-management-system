@@ -23,11 +23,14 @@ class CorrectionRequest extends Model
         'request_clock_out_at' => 'datetime',
     ];
 
-
+    // 承認待ち:1  承認済み:2
     public const STATUS_PENDING = 1;
     public const STATUS_APPROVED = 2;
-    public const STATUS_REJECTED = 3;
 
+    public const STATUS_LABELS = [
+        self::STATUS_PENDING => '承認待ち',
+        self::STATUS_APPROVED => '承認済み',
+    ];
 
     public function attendance()
     {
@@ -43,5 +46,11 @@ class CorrectionRequest extends Model
     {
         return $this->hasMany(BreakCorrectionRequest::class);
     }
+
+    public function getStatusLabel()
+    {
+        return self::STATUS_LABELS[$this->status];
+    }
+
 }
 

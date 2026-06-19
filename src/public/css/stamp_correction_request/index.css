@@ -1,3 +1,113 @@
 body {
     background-color: #F0EFF2;
 }
+
+.request-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.request-list__title {
+    width: 900px;
+    margin-top: 91px;
+    padding-left: 21px;
+    border-left: 8px solid #000;
+    font-size: 30px;
+}
+
+.request-list__nav,
+.request-list__table {
+    width: 900px;
+}
+
+.request-list__nav {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 0px 57px;
+    gap: 106px;
+    color: #737373;
+    border-bottom: solid 1px #000000;
+    margin-top: 30px;
+}
+
+.request-list__nav a {
+    text-decoration: none;
+    color: #737373;
+    font-weight: bolder;
+    font-size: 16px;
+}
+
+.request-list__nav a.active {
+    color: #000;
+}
+
+.request-list__table {
+    background: #fff;
+    color: #737373;
+    margin-top: 46px;
+    border-radius: 10px;
+}
+
+
+.request-list__table tbody tr:first-child {
+    border-top: 4px solid #E1E1E1;
+}
+
+.request-list__table tbody tr {
+    border-top: 3px solid #E1E1E1;
+}
+
+.request-list__table th,
+.request-list__table td {
+    padding: 13px 20px;
+    text-align: left;
+    font-size: 16px;
+    letter-spacing: 15%;
+    font-weight: bolder;
+}
+
+.request-list__table td:nth-child(3),
+.request-list__table td:nth-child(5){
+    letter-spacing: 0%;
+}
+
+.request-list__table th:first-child,
+.request-list__table td:first-child{
+    text-align: center;
+}
+
+.request-list__table th:last-child,
+.request-list__table td:last-child {
+    padding-right: 50px;
+}
+
+
+.request-list__table--details {
+    color: #000;
+    text-decoration: none;
+}
+
+@media (max-width: 850px) {
+
+    .request-list__title,
+    .request-list__nav,
+    .request-list__table {
+        width: 80vw;
+    }
+
+    .request-list__title {
+        font-size: 24px;
+    }
+
+    .request-list__nav a {
+        font-size: 16px;
+    }
+
+    .request-list__table th,
+    .request-list__table td {
+        font-size: 12px;
+    }
+
+}

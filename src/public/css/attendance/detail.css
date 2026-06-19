@@ -22,7 +22,6 @@ body {
     color: #737373;
     margin-top: 46px;
     border-radius: 10px;
-    margin-bottom: 40px;
 }
 
 .attendance-detail__table tr {
@@ -81,6 +80,7 @@ body {
 
 .attendance-detail__btn {
     text-align: right;
+    margin-top: 36px;
 }
 
 .attendance-detail__btn--submit{
@@ -92,4 +92,20 @@ body {
     border-radius: 5px;
     font-size: 18px;
     font-weight: 700;
+}
+
+.attendance-detail__error-message{
+    color: red;
+    font-size: 18px;
+    font-weight: bolder;
+    letter-spacing: 15%;
+    margin-top: 25px;
+    text-align: end;
+}
+
+@media (max-width: 850px) {
+    .attendance-detail__title,
+    .attendance-detail__table {
+        width: 80vw;
+    }
 }

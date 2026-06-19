@@ -128,9 +128,17 @@ class AttendanceController extends Controller
     public function detail($id)
     {
         $user = auth()->user();
-        $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::with('correctionRequests')
+            ->findOrFail($id);
 
-        return view('attendance.detail', compact('user','attendance'));
+        $pendingRequest = $attendance->correctionRequests()
+        ->where('status', CorrectionRequest::STATUS_PENDING)
+            ->latest()
+            ->first();
+
+        $pendingBreaks = $pendingRequest ? $pendingRequest->breakCorrectionRequests : $attendance->breaks;
+
+        return view('attendance.detail', compact('user','attendance','pendingRequest','pendingBreaks'));
     }
 
 
