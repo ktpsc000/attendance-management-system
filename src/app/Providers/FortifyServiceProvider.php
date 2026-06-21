@@ -16,6 +16,10 @@ use Laravel\Fortify\Fortify;
 
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
 use Laravel\Fortify\Contracts\LogoutResponse;
+use Laravel\Fortify\Contracts\LoginResponse;
+use App\Http\Responses\LoginResponse as CustomLoginResponse;
+
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -33,6 +37,12 @@ class FortifyServiceProvider extends ServiceProvider
             }
         }
     );
+
+    $this->app->singleton(
+        LoginResponse::class,
+        CustomLoginResponse::class
+    );
+
 }
 
     /**
@@ -55,7 +65,6 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(10)->by($email . $request->ip());
         });
-
 
         app()->bind(FortifyLoginRequest::class, LoginRequest::class);
     }

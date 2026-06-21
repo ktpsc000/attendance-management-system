@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\StampController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -26,6 +27,11 @@ Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->name('verification.notice');
 
+Route::get('/admin/login', function () {
+    session(['login_context' => 'admin']);
+    return view('admin.auth.login');
+})->middleware('guest');
+
 Route::middleware(['auth', 'verified'])->group(function(){
 Route::get('/attendance', [AttendanceController::class, 'create'])->name('attendance');
 Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn']);
@@ -39,5 +45,9 @@ Route::get('/attendance/detail/{id}', [AttendanceController::class, 'detail'])->
 Route::post('/attendance/detail/{id}', [AttendanceController::class, 'store']);
 
 Route::get('/stamp_correction_request/list', [StampController::class,'index'])->name('stamp_correction_request.list');
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function (){
+    Route::get('/attendance/list',[AdminAttendanceController::class, 'index'])->name('admin.attendance.list');
+    });
 
 });
