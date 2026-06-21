@@ -48,6 +48,7 @@ Route::get('/stamp_correction_request/list', [StampController::class,'index'])->
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function (){
     Route::get('/attendance/list',[AdminAttendanceController::class, 'index'])->name('admin.attendance.list');
+    Route::get('/attendance/{id}',[AdminAttendanceController::class, 'detail'])->name('admin.attendance.detail');
     });
 
 });

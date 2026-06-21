@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use App\Models\CorrectionRequest;
 
 class AttendanceController extends Controller
 {
@@ -29,4 +30,18 @@ class AttendanceController extends Controller
 
         return view('admin.attendance.list', compact('users','currentDay'));
     }
+
+        public function detail($id){
+            $attendance = Attendance::with('user')
+                ->findOrFail($id);
+
+            $pendingRequest = $attendance->correctionRequests()
+                ->where('status', CorrectionRequest::STATUS_PENDING)
+                ->latest()
+                ->first();
+
+            $pendingBreaks = $pendingRequest ? $pendingRequest->breakCorrectionRequests : $attendance->breaks;
+
+            return view('attendance.detail', compact('attendance','pendingRequest','pendingBreaks'));
+        }
 }

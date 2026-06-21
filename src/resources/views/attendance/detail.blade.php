@@ -22,7 +22,7 @@
 
             <tr>
                 <th>名前</th>
-                <td><p>{{ $user->name }}</p></td>
+                <td><p>{{ $attendance->user->name }}</p></td>
             </tr>
 
             <tr>

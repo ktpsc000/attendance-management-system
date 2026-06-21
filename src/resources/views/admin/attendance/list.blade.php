@@ -45,7 +45,7 @@
                 <td>{{ $user['attendance']?->clock_out_at?->format('H:i') }}</td>
                 <td>{{ $user['attendance']?->getFormattedBreakTime() }}</td>
                 <td>{{ $user['attendance']?->getFormattedWorkingTime() }}</td>
-                <td><a class="attendance-table__details" href="{{ route('attendance.detail', $user['attendance']->id) }}">詳細</a></td>
+                <td><a class="attendance-table__details" href="{{ route('admin.attendance.detail', $user['attendance']->id) }}">詳細</a></td>
             </tr>
             @endforeach
         </tbody>
