@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\StampController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -49,6 +50,9 @@ Route::get('/stamp_correction_request/list', [StampController::class,'index'])->
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function (){
     Route::get('/attendance/list',[AdminAttendanceController::class, 'index'])->name('admin.attendance.list');
     Route::get('/attendance/{id}',[AdminAttendanceController::class, 'detail'])->name('admin.attendance.detail');
+    Route::post('/attendance/{id}',[AdminAttendanceController::class, 'store']);
+    Route::get('/staff/list', [StaffController::class, 'index'])->name('admin.staff.list');
+
     });
 
 });

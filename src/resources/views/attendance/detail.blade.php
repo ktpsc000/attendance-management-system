@@ -11,7 +11,7 @@
         勤怠詳細
     </h1>
 
-    <form action="" method="POST">
+    <form action="/attendance/detail/{{ $attendance->id }}" method="POST">
         @csrf
 
         <table class="attendance-detail__table">
@@ -44,7 +44,12 @@
 
             @foreach($pendingBreaks as $index => $break)
             <tr>
-                <th>休憩</th>
+                <th>休憩
+                    @if(!$pendingBreaks->count()-1 == 0){
+                        {{$pendingBreaks->count()-1}}
+                    }
+                    @endif
+                </th>
                 <td>
                     <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $index, optional($break->break_start_at)->format('H:i')) }}">
                     〜
@@ -54,7 +59,7 @@
             @endforeach
 
             <tr>
-                <th>休憩</th>
+                <th>休憩{{$pendingBreaks->count()+1}}</th>
                 <td>
                     <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $pendingBreaks->count()) }}">
                     〜

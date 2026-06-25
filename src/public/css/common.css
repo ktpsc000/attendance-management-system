@@ -70,7 +70,9 @@ p {
     color: white;
 }
 
-
+.content{
+    margin-bottom: 40px;
+}
 
 @media (max-width:850px) {
 
