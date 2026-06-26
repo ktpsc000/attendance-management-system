@@ -1,7 +1,7 @@
 @extends('layouts/admin_app')
 
 @section('css')
-<link rel="stylesheet" href="{{asset('css/attendance/list.css')}}">
+<link rel="stylesheet" href="{{asset('css/admin/attendance/staff_list.css')}}">
 @endsection
 
 @section('content')
@@ -53,6 +53,16 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="export-form">
+        <form action="{{ route('admin.attendance.export', [
+            'id' => $user->id,
+            'year' => $currentMonth->year,
+            'month' => $currentMonth->month,]) }}" method="POST">
+            @csrf
+            <input class="export-form__btn" type="submit" value="CSV出力">
+        </form>
+    </div>
 
 </div>
 @endsection

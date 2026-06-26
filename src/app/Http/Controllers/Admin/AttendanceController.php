@@ -99,14 +99,56 @@ class AttendanceController extends Controller
         $year = $request->input('year', now()->year);
         $month = $request->input('month', now()->month);
         $currentMonth = Carbon::create($year, $month);
+        $days = $this->getAttendanceList($user, $currentMonth);
+
+        return view('admin.attendance.staff_list', compact('user','days','currentMonth'));
+    }
+
+
+    public function export(Request $request, $id){
+        $user = User::findOrFail($id);
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->month);
+        $currentMonth = Carbon::create($year, $month);
+        $days = $this->getAttendanceList($user, $currentMonth);
+
+        return response()->streamDownload(function () use ($days) {
+
+            $handle = fopen('php://output', 'w');
+
+            fwrite($handle, "\xEF\xBB\xBF");
+
+            fputcsv($handle, [
+                '日付',
+                '出勤',
+                '退勤',
+                '休憩',
+                '合計',
+            ]);
+
+            foreach ($days as $day) {
+                fputcsv($handle, [
+                    $day['day']->format('Y/m/d'),
+                    optional($day['attendance']->clock_in_at)->format('H:i'),
+                    optional($day['attendance']->clock_out_at)->format('H:i'),
+                    optional($day['attendance'])->getFormattedBreakTime(),
+                    optional($day['attendance'])->getFormattedWorkingTime(),
+                ]);
+            }
+
+            fclose($handle);
+
+        }, "{$user->name}_{$currentMonth->format('Ym')}.csv");
+    }
+
+    private function getAttendanceList(User $user, Carbon $currentMonth){
         $days = [];
 
-        foreach(
-            CarbonPeriod::create(
+        foreach (CarbonPeriod::create(
                 $currentMonth->copy()->startOfMonth(),
                 $currentMonth->copy()->endOfMonth()
-            ) as $day
-        ){
+            ) as $day){
+
             $attendance = Attendance::firstOrCreate([
                 'user_id' => $user->id,
                 'work_date' => $day->format('Y-m-d'),
@@ -118,7 +160,7 @@ class AttendanceController extends Controller
             ];
         }
 
-        return view('admin.attendance.staff_list', compact('user','days','currentMonth'));
+        return $days;
     }
 
 }

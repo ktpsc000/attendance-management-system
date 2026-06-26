@@ -17,7 +17,8 @@ body {
 }
 
 .attendance-list__month-nav,
-.attendance-table {
+.attendance-table,
+.export-form {
     width: 900px;
 }
 
@@ -27,7 +28,7 @@ body {
     align-items: center;
     height: 60px;
     padding: 0px 25px;
-    margin-top: 43px;
+    margin-top: 24px;
 }
 
 .attendance-list__month-nav a {
@@ -35,7 +36,6 @@ body {
     color: #737373;
     font-weight: bolder;
     font-size: 16px;
-    letter-spacing: 15%;
 }
 
 .attendance-list__current-month {
@@ -78,7 +78,7 @@ body {
 }
 
 .attendance-table th,
-.attendance-table td{
+.attendance-table td {
     padding: 13px 0px;
     text-align: center;
     font-size: 16px;
@@ -87,16 +87,16 @@ body {
 }
 
 .attendance-table th:nth-child(1),
-.attendance-table td:nth-child(1){
-    width: 23%;
-    padding-right:35px;
+.attendance-table td:nth-child(1) {
+    width: 25%;
+    padding-left: 60px;
+    text-align: start;
 }
 
 .attendance-table th:nth-child(6),
-.attendance-table td:nth-child(6){
+.attendance-table td:nth-child(6) {
     width: 20%;
     padding-right: 30px;
-
 }
 
 .attendance-table__details {
@@ -104,11 +104,30 @@ body {
     text-decoration: none;
 }
 
+.export-form{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 60px;
+}
+
+.export-form__btn {
+    width: 184px;
+    height: 50px;
+    font-size: 22px;
+    color: #FFFFFF;
+    background-color: #000;
+    font-weight: bolder;
+    letter-spacing: 15%;
+    border-radius: 5px;
+
+}
+
 @media (max-width: 850px) {
 
     .attendance-list__title,
     .attendance-list__month-nav,
-    .attendance-table {
+    .attendance-table,
+    .export-form {
         width: 80vw;
     }
 
@@ -127,6 +146,27 @@ body {
     .attendance-table th,
     .attendance-table td {
         font-size: 12px;
+    }
+
+    .attendance-table th:nth-child(1),
+    .attendance-table td:nth-child(1) {
+        padding-left: 45px;
+    }
+
+    .attendance-table th:nth-child(6),
+    .attendance-table td:nth-child(6) {
+        padding-right: 20px;
+
+    }
+
+    .export-form {
+        margin-top: 28px;
+    }
+
+    .export-form__btn {
+        width: 130px;
+        height: 40px;
+        font-size: 16px;
     }
 
 }
