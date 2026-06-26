@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('layouts/admin_app')
 
 @section('css')
 <link rel="stylesheet" href="{{asset('css/admin/attendance/list.css')}}">
@@ -17,7 +17,7 @@
 
         <div class="attendance-list__current-month">
             <img src="{{ asset('images/カレンダー.png') }}" alt="カレンダー">
-            <p>{{ $currentDay->format('Y/m') }}</p>
+            <p>{{ $currentDay->format('Y/m/d') }}</p>
         </div>
 
         <a href="{{ route('admin.attendance.list', [

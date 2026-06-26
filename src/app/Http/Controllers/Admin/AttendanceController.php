@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use App\Models\CorrectionRequest;
 use App\Http\Requests\AttendanceCorrectionRequest;
 
@@ -92,5 +93,32 @@ class AttendanceController extends Controller
         return redirect('/admin/attendance/list');
     }
 
+    public function list(Request $request, $id){
+
+        $user = User::findOrFail($id);
+        $year = $request->input('year', now()->year);
+        $month = $request->input('month', now()->month);
+        $currentMonth = Carbon::create($year, $month);
+        $days = [];
+
+        foreach(
+            CarbonPeriod::create(
+                $currentMonth->copy()->startOfMonth(),
+                $currentMonth->copy()->endOfMonth()
+            ) as $day
+        ){
+            $attendance = Attendance::firstOrCreate([
+                'user_id' => $user->id,
+                'work_date' => $day->format('Y-m-d'),
+            ]);
+
+            $days[] = [
+                'day' => $day,
+                'attendance' => $attendance,
+            ];
+        }
+
+        return view('admin.attendance.staff_list', compact('user','days','currentMonth'));
+    }
 
 }
