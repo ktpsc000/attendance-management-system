@@ -44,17 +44,13 @@ class AttendanceController extends Controller
     }
 
     public function detail($id){
-        $attendance = Attendance::with('user')
+        $attendance = Attendance::with('user','breaks')
             ->findOrFail($id);
 
-        $pendingRequest = $attendance->correctionRequests()
-            ->where('status', CorrectionRequest::STATUS_PENDING)
-            ->latest()
-            ->first();
 
-        $pendingBreaks = $pendingRequest ? $pendingRequest->breakCorrectionRequests : $attendance->breaks;
+        $breaks = $attendance->breaks;
 
-        return view('admin.attendance.detail', compact('attendance','pendingRequest','pendingBreaks'));
+        return view('admin.attendance.detail', compact('attendance','breaks'));
     }
 
     public function store(AttendanceCorrectionRequest $request, $id){

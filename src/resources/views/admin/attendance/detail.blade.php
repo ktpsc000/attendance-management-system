@@ -36,31 +36,30 @@
             <tr>
                 <th>出勤・退勤</th>
                 <td>
-                    <input type="text" name="clock_in_at" value="{{ old('clock_in_at', $pendingRequest ? $pendingRequest->request_clock_in_at->format('H:i') : optional($attendance->clock_in_at)->format('H:i')) }}">
+                    <input type="text" name="clock_in_at" value="{{ old('clock_in_at', optional($attendance->clock_in_at)->format('H:i')) }}">
                     〜
-                    <input type="text" name="clock_out_at" value="{{ old('clock_out_at', $pendingRequest ? $pendingRequest->request_clock_out_at->format('H:i') : optional($attendance->clock_out_at)->format('H:i')) }}">
+                    <input type="text" name="clock_out_at" value="{{ old('clock_out_at', optional($attendance->clock_out_at)->format('H:i')) }}">
                 </td>
             </tr>
 
-            @foreach($pendingBreaks as $index => $break)
+            @foreach($breaks as $index => $break)
             <tr>
                 <th>休憩
-                    @if(!$pendingBreaks->count()-1 == 0){
-                        {{$pendingBreaks->count()-1}}
-                    }
+                    @if($index > 0)
+                    {{ $index+1 }}
                     @endif
                 </th>
                 <td>
                     <input type="hidden" name="break_ids[]" value="{{ $break->id }}">
-                    <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $index, optional($break->break_start_at)->format('H:i')) }}">
+                    <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $index, $break->break_start_at->format('H:i')) }}">
                     〜
-                    <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . $index, optional($break->break_end_at)->format('H:i')) }}">
+                    <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . $index, $break->break_end_at->format('H:i')) }}">
                 </td>
             </tr>
             @endforeach
 
             <tr>
-                <th>休憩{{$pendingBreaks->count()+1}}</th>
+                <th>休憩{{$breaks->count()+1}}</th>
                 <td>
                     <input type="text" name="new_break_start_at" value="{{ old('new_break_start_at')}}">
                     〜
