@@ -37,7 +37,7 @@
                 <td>{{ $request->attendance->work_date->format('Y/m/d') }}</td>
                 <td>{{ $request->remarks }}</td>
                 <td>{{ $request->created_at->format('Y/m/d') }}</td>
-                <td><a class="request-list__table--details" href="{{ route('admin.stamp_correction_request.approve', $request->id) }}">詳細</a></td>
+                <td><a class="request-list__table--details" href="{{ route('admin.stamp_correction_request.show', $request->id) }}">詳細</a></td>
             </tr>
         @endforeach
         </tbody>

@@ -32,4 +32,40 @@ class StampController extends Controller
 
         return view('admin.stamp_correction_request.show', compact('pendingRequest','pendingBreaks'));
     }
+
+    public function approve($attendance_correct_request_id){
+        $pendingRequest = CorrectionRequest::with('attendance.breaks','breakCorrectionRequests')
+            ->findOrFail($attendance_correct_request_id);
+
+        $attendance = $pendingRequest->attendance;
+        $attendanceBreaks = $attendance->breaks;
+
+        $attendance->update([
+            'clock_in_at'  => $pendingRequest->request_clock_in_at,
+            'clock_out_at' => $pendingRequest->request_clock_out_at,
+            'remarks'      => $pendingRequest->remarks,
+        ]);
+
+        foreach ($pendingRequest->breakCorrectionRequests as $index => $breakRequest) {
+            $break = $attendanceBreaks->get($index);
+
+            if ($break) {
+                $break->update([
+                    'break_start_at' => $breakRequest->request_break_start_at,
+                    'break_end_at'   => $breakRequest->request_break_end_at,
+                ]);
+            }else {
+                $attendance->breaks()->create([
+                    'break_start_at' => $breakRequest->request_break_start_at,
+                    'break_end_at'   => $breakRequest->request_break_end_at,
+                ]);
+            }
+
+        }
+        $pendingRequest->update([
+            'status' => CorrectionRequest::STATUS_APPROVED,
+        ]);
+
+        return redirect()->route('admin.stamp_correction_request.show', $pendingRequest->id);
+    }
 }

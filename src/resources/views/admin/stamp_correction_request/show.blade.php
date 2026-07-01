@@ -1,7 +1,7 @@
 @extends('layouts/admin_app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/admin/attendance/detail.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/stamp_correction_request/show.css') }}">
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
         勤怠詳細
     </h1>
 
-    <form action="/admin/attendance/{{ $pendingRequest->id }}" method="POST">
+    <form action="/admin/stamp_correction_request/approve/{{ $pendingRequest->id }}" method="POST">
         @csrf
 
         <table class="attendance-detail__table">
@@ -65,15 +65,15 @@
 
         </table>
 
-        @if($pendingRequest)
         <div class="attendance-detail__btn">
+            @if($pendingRequest->status == 1 )
             <input class="attendance-detail__btn--submit" type="submit" value="承認">
+            @else
+            <div class="attendance-detail__btn--after">
+                <p>承認済み</p>
+            </div>
+            @endif
         </div>
-        @else
-        <div class="attendance-detail__btn--after">
-            <p>承認済み</p>
-        </div>
-        @endif
 
     </form>
 

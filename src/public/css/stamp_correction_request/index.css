@@ -48,6 +48,7 @@ body {
     color: #737373;
     margin-top: 46px;
     border-radius: 10px;
+    table-layout: fixed;
 }
 
 
@@ -61,7 +62,7 @@ body {
 
 .request-list__table th,
 .request-list__table td {
-    padding: 13px 20px;
+    padding: 13px 0px;
     text-align: left;
     font-size: 16px;
     letter-spacing: 15%;
@@ -73,16 +74,16 @@ body {
     letter-spacing: 0%;
 }
 
-.request-list__table th:first-child,
-.request-list__table td:first-child{
+.request-list__table th:nth-child(1),
+.request-list__table td:nth-child(1) {
+    width: 18%;
     text-align: center;
 }
 
-.request-list__table th:last-child,
-.request-list__table td:last-child {
-    padding-right: 50px;
+.request-list__table th:nth-child(6),
+.request-list__table td:nth-child(6) {
+    width: 13%;
 }
-
 
 .request-list__table--details {
     color: #000;

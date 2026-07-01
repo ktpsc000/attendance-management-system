@@ -52,6 +52,7 @@ body {
     width: 316px;
     display: flex;
     justify-content: space-between;
+    color: #000;
 }
 
 .attendance-detail__table p{

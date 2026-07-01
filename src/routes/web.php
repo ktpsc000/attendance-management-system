@@ -66,7 +66,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function (){
 
     Route::get('/stamp_correction_request/list', [AdminStampController::class, 'index'])->name('admin.stamp_correction_request.list');
 
-    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminStampController::class, 'show'])->name('admin.stamp_correction_request.approve');
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminStampController::class, 'show'])->name('admin.stamp_correction_request.show');
+    Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminStampController::class, 'approve'])->name('admin.stamp_correction_request.approve');
     });
 
 });
