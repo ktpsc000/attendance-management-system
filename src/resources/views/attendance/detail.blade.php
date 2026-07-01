@@ -36,24 +36,35 @@
             <tr>
                 <th>出勤・退勤</th>
                 <td>
+                    @if(!$pendingRequest)
                     <input type="text" name="clock_in_at" value="{{ old('clock_in_at', $pendingRequest ? $pendingRequest->request_clock_in_at->format('H:i') : optional($attendance->clock_in_at)->format('H:i')) }}">
                     〜
                     <input type="text" name="clock_out_at" value="{{ old('clock_out_at', $pendingRequest ? $pendingRequest->request_clock_out_at->format('H:i') : optional($attendance->clock_out_at)->format('H:i')) }}">
+                    @else
+                    <p>{{ $pendingRequest->request_clock_in_at->format('H:i') }}</p>
+                    〜
+                    <p>{{ $pendingRequest->request_clock_out_at->format('H:i') }}</p>
+                    @endif
                 </td>
             </tr>
 
             @foreach($pendingBreaks as $index => $break)
             <tr>
                 <th>休憩
-                    @if(!$pendingBreaks->count()-1 == 0){
-                        {{$pendingBreaks->count()-1}}
-                    }
+                    @if($index > 0)
+                    {{ $index+1 }}
                     @endif
                 </th>
                 <td>
-                    <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $index, $break->request_break_start_at->format('H:i')) }}">
+                    @if(!$pendingRequest)
+                    <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $index, $break->break_start_at->format('H:i')) }}">
                     〜
-                    <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . $index, $break->request_break_end_at->format('H:i')) }}">
+                    <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . $index, $break->break_end_at->format('H:i')) }}">
+                    @else
+                    <p>{{ $break->request_break_start_at->format('H:i') }}</p>
+                    〜
+                    <p>{{ $break->request_break_end_at->format('H:i') }}</p>
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -61,15 +72,23 @@
             <tr>
                 <th>休憩{{$pendingBreaks->count()+1}}</th>
                 <td>
+                    @if(!$pendingRequest)
                     <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $pendingBreaks->count()) }}">
                     〜
                     <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . $pendingBreaks->count()) }}">
+                @endif
                 </td>
             </tr>
 
             <tr>
                 <th>備考</th>
-                <td><textarea name="remarks">{{ old('remarks', $attendance->remarks) }}</textarea></td>
+                <td>
+                    @if(!$pendingRequest)
+                    <textarea name="remarks">{{ old('remarks', $attendance->remarks) }}</textarea>
+                    @else
+                    <p>{{ $pendingRequest->remarks }}</p>
+                    @endif
+                </td>
             </tr>
 
         </table>
