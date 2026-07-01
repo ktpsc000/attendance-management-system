@@ -21,7 +21,7 @@
             <div class="header-nav">
                 <a href="{{ route('admin.attendance.list')}}" class="header-nav__attendance">勤怠一覧</a>
                 <a href="{{ route('admin.staff.list')}}" class="header-nav__list">スタッフ一覧</a>
-                <a href="/stamp_correction_request/list" class="header-nav__request">申請一覧</a>
+                <a href="{{route('admin.stamp_correction_request.list')}}" class="header-nav__request">申請一覧</a>
                 <form class="header-nav__form" action="{{route('logout')}}" method="post">
                     @csrf
                     <button class="header-nav__form--logout" type="submit">ログアウト</button>

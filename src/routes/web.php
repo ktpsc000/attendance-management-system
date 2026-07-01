@@ -6,6 +6,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\StampController;
+use App\Http\Controllers\Admin\StampController as AdminStampController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
@@ -63,6 +64,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function (){
     Route::post('/admin/attendance/staff/{id}/export', [AdminAttendanceController::class, 'export'])
     ->name('admin.attendance.export');
 
+    Route::get('/stamp_correction_request/list', [AdminStampController::class, 'index'])->name('admin.stamp_correction_request.list');
+
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminStampController::class, 'show'])->name('admin.stamp_correction_request.approve');
     });
 
 });

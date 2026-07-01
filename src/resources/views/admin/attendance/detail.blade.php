@@ -75,15 +75,9 @@
 
         </table>
 
-        @if($pendingRequest)
-        <div class="attendance-detail__error-message">
-            <p>*承認待ちのため修正はできません。</p>
-        </div>
-        @else
         <div class="attendance-detail__btn">
             <input class="attendance-detail__btn--submit" type="submit" value="修正">
         </div>
-        @endif
 
     </form>
 

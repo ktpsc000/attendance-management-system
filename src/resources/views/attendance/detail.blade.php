@@ -51,9 +51,9 @@
                     @endif
                 </th>
                 <td>
-                    <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $index, optional($break->break_start_at)->format('H:i')) }}">
+                    <input type="text" name="break_start_at[]" value="{{ old('break_start_at.' . $index, $break->request_break_start_at->format('H:i')) }}">
                     〜
-                    <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . $index, optional($break->break_end_at)->format('H:i')) }}">
+                    <input type="text" name="break_end_at[]" value="{{ old('break_end_at.' . $index, $break->request_break_end_at->format('H:i')) }}">
                 </td>
             </tr>
             @endforeach
