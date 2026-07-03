@@ -51,7 +51,6 @@ body {
     table-layout: fixed;
 }
 
-
 .request-list__table tbody tr:first-child {
     border-top: 4px solid #E1E1E1;
 }
