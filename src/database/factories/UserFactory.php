@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class UserFactory extends Factory
 {
@@ -19,6 +20,8 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'role' => User::ROLE_USER,
+            'status' => User::STATUS_OFF_DUTY,
             'remember_token' => Str::random(10),
         ];
     }
@@ -33,6 +36,24 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'email_verified_at' => null,
+            ];
+        });
+    }
+
+    public function working()
+    {
+        return $this->state(function () {
+            return [
+                'status' => User::STATUS_WORKING,
+            ];
+        });
+    }
+
+    public function break()
+    {
+        return $this->state(function () {
+            return [
+                'status' => User::STATUS_BREAK,
             ];
         });
     }

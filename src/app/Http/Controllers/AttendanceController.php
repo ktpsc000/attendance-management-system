@@ -25,7 +25,6 @@ class AttendanceController extends Controller
 
     public function clockIn(){
         $user = auth()->user();
-
         $attendance = Attendance::firstOrCreate([
             'user_id' => $user->id,
             'work_date' => today(),
@@ -43,7 +42,6 @@ class AttendanceController extends Controller
 
     public function breakStart(){
         $user = auth()->user();
-
         $attendance = Attendance::where('user_id', $user->id)
             ->whereDate('work_date', today())
             ->firstOrFail();
@@ -60,11 +58,9 @@ class AttendanceController extends Controller
 
     public function breakEnd(){
         $user = auth()->user();
-
         $attendance = Attendance::where('user_id', $user->id)
             ->whereDate('work_date', today())
             ->firstOrFail();
-
         $break = $attendance->breaks()
             ->whereNull('break_end_at')
             ->latest()
@@ -82,7 +78,6 @@ class AttendanceController extends Controller
 
     public function clockOut(){
         $user = auth()->user();
-
         $attendance = Attendance::where('user_id', $user->id)
             ->whereDate('work_date', today())
             ->firstOrFail();
@@ -98,7 +93,6 @@ class AttendanceController extends Controller
     }
 
     public function list(Request $request){
-
         $user = auth()->user();
         $year = $request->input('year', now()->year);
         $month = $request->input('month', now()->month);
@@ -125,8 +119,7 @@ class AttendanceController extends Controller
         return view('attendance.list', compact('user','days','currentMonth'));
     }
 
-    public function detail($id)
-    {
+    public function detail($id){
         $attendance = Attendance::with('user')
             ->findOrFail($id);
 
@@ -141,8 +134,7 @@ class AttendanceController extends Controller
     }
 
 
-    public function store(AttendanceCorrectionRequest $request, $id)
-    {
+    public function store(AttendanceCorrectionRequest $request, $id){
         $attendance = Attendance::findOrFail($id);
 
         $correctionRequest = CorrectionRequest::create([
@@ -158,7 +150,6 @@ class AttendanceController extends Controller
         ]);
 
         foreach ($request->break_start_at as $index => $start){
-
             $end = $request->break_end_at[$index];
 
             if (!$start || !$end) {

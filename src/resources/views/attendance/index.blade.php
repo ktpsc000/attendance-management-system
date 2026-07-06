@@ -17,11 +17,15 @@
     </div>
 
     <div class="attendance__date">
-        <p id="current-date"></p>
+        <p id="current-date">
+            {{ now()->format('Y年n月j日') }}({{ ['日','月','火','水','木','金','土'][now()->dayOfWeek] }})
+        </p>
     </div>
 
     <div class="attendance__time">
-        <p id="current-time"></p>
+        <p id="current-time">
+            {{ now()->format('H:i') }}
+        </p>
     </div>
 
     <div class="attendance__clock">
