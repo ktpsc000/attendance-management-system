@@ -144,6 +144,3 @@ php artisan migrate:fresh --env=testing
 
 - 開発環境：http://localhost/
 - phpMyAdmin:：http://localhost:8080/
-
-## 補足
-# attendance-management-system
