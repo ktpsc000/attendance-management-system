@@ -27,12 +27,12 @@ make init
 
 ## テストアカウント
 
-- name: ユーザ−2（一般）
+- name: ユーザ−1（一般）
 email: user1@example.com
 password: password
 
 - name: ユーザ−2（一般）
-email: user1@example.com
+email: user2@example.com
 password: password
 
 - name: ユーザ−3（管理者）
@@ -144,4 +144,6 @@ php artisan migrate:fresh --env=testing
 ## URL
 
 - 開発環境：http://localhost/
-- phpMyAdmin:：http://localhost:8080/
+- phpMyAdmin : http://localhost:8080/
+- ログイン（一般）: http://localhost/login
+- ログイン（管理者）: http://localhost/admin/login
