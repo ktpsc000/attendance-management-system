@@ -26,15 +26,16 @@ make init
 
 
 ## テストアカウント
-name: ユーザ−2（一般）
+
+- name: ユーザ−2（一般）
 email: user1@example.com
 password: password
--------------------------
-name: ユーザ−2（一般）
+
+- name: ユーザ−2（一般）
 email: user1@example.com
 password: password
--------------------------
-name: ユーザ−3（管理者）
+
+- name: ユーザ−3（管理者）
 email: user3@example.com
 password: password
 
