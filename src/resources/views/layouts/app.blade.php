@@ -18,6 +18,7 @@
             </a>
 
             @auth
+            @if(auth()->user()->hasVerifiedEmail())
             <div class="header-nav">
                 @if(!auth()->user()->isFinished())
                 <a href="/attendance" class="header-nav__attendance">勤怠</a>
@@ -40,6 +41,7 @@
                     <button class="header-nav__form--logout" type="submit">ログアウト</button>
                 </form>
             </div>
+            @endif
             @endauth
 
         </header>
