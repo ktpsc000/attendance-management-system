@@ -20,17 +20,18 @@
             @auth
             @if(auth()->user()->hasVerifiedEmail())
             <div class="header-nav">
-                @if(!auth()->user()->isFinished())
+                @if(request()->routeIs('attendance') && auth()->user()->isFinished())
+                @else
                 <a href="/attendance" class="header-nav__attendance">勤怠</a>
                 @endif
 
-                @if(auth()->user()->isFinished())
+                @if(request()->routeIs('attendance') && auth()->user()->isFinished())
                 <a href="/attendance/list" class="header-nav__list">今月の出勤一覧</a>
                 @else
                 <a href="/attendance/list" class="header-nav__list">勤怠一覧</a>
                 @endif
 
-                @if(auth()->user()->isFinished())
+                @if(request()->routeIs('attendance') && auth()->user()->isFinished())
                 <a href="/stamp_correction_request/list" class="header-nav__request">申請一覧</a>
                 @else
                 <a href="/stamp_correction_request/list" class="header-nav__request">申請</a>
